@@ -29,7 +29,7 @@ const DEFAULT_HERO = {
 const DEFAULT_ABOUT = {
   title: 'About Me',
   description: "Hello! I'm a passionate software engineer who enjoys building things that live on the internet. My interest in web development started back in 2015 when I decided to try editing custom Tumblr themes — turns out hacking together HTML & CSS taught me a lot about HTML & CSS!\n\nFast-forward to today, and I've had the privilege of working at an advertising agency, a start-up, a huge corporation, and a student-led design studio. My main focus these days is building accessible, inclusive products and digital experiences for a variety of clients.",
-  image: 'https://picsum.photos/seed/developer/800/1000',
+  image: '/image/profil.png',
   stats: [
     { label: 'Years Experience', value: '8+' },
     { label: 'Projects Completed', value: '50+' },
@@ -56,7 +56,12 @@ export class DataService {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (stored) {
         try {
-          return JSON.parse(stored);
+          const parsed = JSON.parse(stored);
+          if (parsed.about && parsed.about.image === 'https://picsum.photos/seed/developer/800/1000') {
+            parsed.about.image = '/image/profil.png';
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(parsed));
+          }
+          return parsed;
         } catch (e) {
           console.error('Failed to parse portfolio data from localStorage', e);
         }
